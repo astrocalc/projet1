@@ -17,6 +17,8 @@ df = pd.DataFrame(columns=['astre','jour','mois','annee','heure_naissance','min_
 df_points = pd.DataFrame(columns=['criteres','soleil','lune','mercure','venus','mars','jupiter','saturne','uranus','neptune','pluton'])
 maitrises = [['Mars'],['Vénus'],['Mercure'],['Lune'],['Soleil'],['Mercure'],['Vénus'],['Pluton', 'Mars'],['Jupiter'],['Saturne'],['Uranus','Saturne'],['Neptune','Jupiter']]
 points_ = 0
+idx_planetes_rapidite = [1,2,3,0,4,5,6,7,8,9]
+rapidite_planetes = [['Soleil',3],['Lune',0],['Mercure',1],['Vénus',2],['Mars',4],['Jupiter',5],['Saturne',6],['Uranus',7],['Neptune',8],['Pluton',9]]
 
 
 
@@ -169,7 +171,7 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
         if (reponse_ == 'oui'):
             points_ = points
         else:
-            points = 0
+            points_ = 0
         col = i+1
         df_points.iloc[6,col] = points_
     
@@ -305,11 +307,8 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
                 orbe = orbe_a
                 if (orbe <= 10):
                     astres_orbe.append(j)
-        if(len(astres_orbe) > 2):
+        if(len(astres_orbe) >= 2):
             planete_moins_40.append(astres_orbe)
-    
-    idx_planetes_rapidite = [1,2,3,0,4,5,6,7,8,9]
-    rapidite_planetes = [['Soleil',3],['Lune',0],['Mercure',1],['Vénus',2],['Mars',4],['Jupiter',5],['Saturne',6],['Uranus',7],['Neptune',8],['Pluton',9]]
 
     planete_moins_40_rap = []
     for i in range(len(planete_moins_40)):

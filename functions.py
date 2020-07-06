@@ -775,6 +775,8 @@ def maitreGouv(signeAsc,nbAsc,ligne,pts):
 def nombreAsc(signeM1,signeM2,ligne,pts):
   idxsigneM1 = get_sign_idx(signeM1)
   idxsigneM2 = get_sign_idx(signeM2)
+  if (idxsigneM2 == idxsigneM1):
+    maitreAsc(signeM1,1,ligne,pts)
   if (idxsigneM2 == idxsigneM1 + 1):
     maitreAsc(signeM1,1,ligne,pts)
   elif (idxsigneM2 == idxsigneM1 + 2):
@@ -784,6 +786,8 @@ def nombreAsc(signeM1,signeM2,ligne,pts):
 def signeAsc(signeM1,signeM2):
   idxsigneM1 = get_sign_idx(signeM1)
   idxsigneM2 = get_sign_idx(signeM2)
+  if (idxsigneM2 == idxsigneM1 ):
+    return [signeM1]
   if (idxsigneM2 == idxsigneM1 + 1):
     return [signeM1]
   elif (idxsigneM2 == idxsigneM1 + 2):

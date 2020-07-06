@@ -10,6 +10,6 @@ class CoordsForm(FlaskForm):
     annee_naissance = IntegerField('Année de naissance', validators = [NumberRange(min=None, max=None)])
     heure_naissance = IntegerField('Heure (! en T.U.)', validators = [NumberRange(min=0, max=None)])
     min_naissance = IntegerField('Minutes', validators = [NumberRange(min=1, max=60)])
-    latitude = FloatField('Latitude (7 décimales)', validators = [NumberRange(min=0, max=None)])
-    longitude = FloatField('Longitude (7 décimales)', validators = [NumberRange(min=0, max=None)])
+    latitude = FloatField('Latitude (6 ou 7 décimales)', validators = [NumberRange(min=0, max=None)])
+    longitude = FloatField('Longitude (6 ou 7 décimales)', validators = [NumberRange(min=0, max=None)])
     submit = SubmitField('Envoyer')

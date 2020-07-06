@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mon premier dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&display=swap');
+
+        .svg-container {
+            position: relative;
+            width: 100%;
+            vertical-align: top;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            }
+
+        .svg-content-responsive {
+            margin: 0;
+            padding: 0;
+            display: inline-block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            }
+        
+        #tableau_valo {
+            width: 70%;
+            margin-left: 5%;
+            padding: 5%;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div id = 'tableau_valo'></div>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script type = "text/babel" >
+    
+    
+    d3.csv( '{{data[0]}}' )
+        .then(function(data_) {
+
+            const astres = ['Soleil', 'Lune', 'Mercure', 'Vénus', 'Mars', 'Jupiter', 'Saturne', 'Uranus', 'Neptune', 'Pluton' ]
+
+
+            const width = 600;
+            const height = 660;
+            const svgView = `0 0 ${width} ${height}`;
+
+            const paddingBottom =  width/height*100 + '%';
+
+            const paddTop = 5;
+            const paddLeft = 5;
+            const paddRight = 0;
+
+            const container = d3.select('#tableau_valo');
+
+            const hauteur = 22 * 30 + paddTop
+            const padlefttextes = 150
+
+            container.append('div')
+                .attr('id', 'cont_1')
+                .attr('class', 'svg-container')
+      
+            
+            const viz = d3.select('#cont_1')
+                .append('svg')
+                .attr('preserveAspectRatio', 'xMidYMidmeet')
+                .attr('viewBox', svgView)
+
+            viz.selectAll('lines')
+                .data(data_)
+                .enter()
+                .append('line')
+                .attr('x1', paddLeft )
+                .attr('x2', width -paddRight )
+                .attr('y1', function(d,i) { return 30 + i*30 })
+                .attr('y2', function(d,i) { return 30 + i*30 })
+                .style('stroke-width', '.5')
+                .style('stroke', 'darkGrey');
+
+            viz.selectAll('text')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', 10)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('font-weight', '300')
+                .style('fill', 'black')
+                .text(function(d) {return d.criteres});
+
+
+            viz.selectAll('headers')
+                .data(astres)
+                .enter()
+                .append('text')
+                .attr('x', function(d,i) {return padlefttextes + 20 + i*45})
+                .attr('y', paddTop + 10)
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.6em')
+                .style('fill', 'black')
+                .style('text-anchor', 'middle')
+                .text(function(d) {return d});
+
+            viz.selectAll('header_lines')
+                .data(astres)
+                .enter()
+                .append('line')
+                .attr('x1', function(d,i) {return padlefttextes + i*45} )
+                .attr('x2', function(d,i) {return padlefttextes + i*45} )
+                .attr('y1', paddTop )
+                .attr('y2', hauteur )
+                .style('stroke-width', '.5')
+                .style('stroke', 'darkGrey');
+
+
+             viz.selectAll('soleil')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.soleil});
+            
+            
+            viz.selectAll('lune')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.lune});
+
+                viz.selectAll('mercure')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*2)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.mercure});
+            
+                viz.selectAll('venus')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*3)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.venus});
+
+                viz.selectAll('mars')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*4)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.mars});
+
+                viz.selectAll('jupiter')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*5)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.jupiter});
+
+                viz.selectAll('saturne')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*6)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.saturne});
+
+                viz.selectAll('uranus')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*7)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.uranus});
+
+                viz.selectAll('neptune')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*8)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.neptune});
+
+                viz.selectAll('pluton')
+                .data(data_)
+                .enter()
+                .append('text')
+                .attr('x', padlefttextes + 18 + 45*9)
+                .attr('y', function(d,i) {return 50 + i*30})
+                .style('font-family', 'Fira Sans')
+                .style('font-size', '.8em')
+                .style('fill', 'black')
+                .text(function(d) {return d.pluton});
+            
+           
+
+            
+
+
+        }) 
+    </script>
+
+
+
+</body>
+</html>

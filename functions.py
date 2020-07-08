@@ -248,11 +248,24 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
             if j != i:
                 planete1 = df['deg'].loc[i]
                 planete2 = df['deg'].loc[j]
+                
                 if (0 <= i <= 1 or 0 <= j <= 1):
+                    #print(rapidite_planetes[i][0])
+                    #print(rapidite_planetes[j][0])
+                    #print(planete1)
+                    #print(planete2)
+                    points = 0
                     points = trouve_aspects_luminaires(planete1,planete2,1)
+                    #print(points)
                     points_astre += points
                 else:
+                    #print(rapidite_planetes[i][0])
+                    #print(rapidite_planetes[j][0])
+                    #print(planete1)
+                    #print(planete2)
+                    points = 0
                     points = trouve_aspects_planetes(planete1,planete2,1)
+                    #print(points)
                     points_astre += points
                 nb_aspects[i+1] += points_astre
     
@@ -655,36 +668,50 @@ def incl_maison(plRef,pl2,posMs,pts):
   return points_f
 
 def planete_domicile(planete_id):
-  signe_planete = df.iloc[planete_id,6]
-  signe_domicile = domiciles[planete_id]
+  planete = rapidite_planetes[planete_id][0]
+  signe_planete = df['signe'].loc[planete_id]
+  idx_signe = get_sign_idx(signe_planete)
+  signe_domicile = maitrises[idx_signe]
   for i in range(len(signe_domicile)):
-    if (signe_domicile[i] == signe_planete):
+    if (signe_domicile[i] == planete):
       reponse = 'oui'
+      break
     else:
       reponse = 'non'
   return reponse
 
 def trouve_aspects_luminaires(plRef,pl2,nbp):
-  reponse = trouve_orbe(plRef,pl2)
-  orbe = abs(reponse[0])
   points = 0
+  reponse = trouve_orbe(plRef,pl2)
+  #print(reponse)
+  orbe = abs(reponse[0])
+  #print(orbe)
+  orbe = round(orbe)
+  #print(orbe)
   ajout_points = nbp
   if ( orbe <= 12 ):
+    #print('hello12')
     points += ajout_points
   if ( 56 <= orbe <= 64):
+    #print('hello56')
     points += ajout_points
   if (83 <= orbe <= 97):
+    #print('hello83')
     points+= ajout_points
   if (112 <= orbe <= 128):
+    #print('hello112')
     points+= ajout_points
   if (170 <= orbe <= 190):
+    #print('hello170')
     points += ajout_points
   return points
 
 def trouve_aspects_planetes(plRef,pl2,nbp):
+  points = 0
   reponse = trouve_orbe(plRef,pl2)
   orbe = abs(reponse[0])
-  points = 0
+  orbe = round(orbe)
+  #print(orbe)
   ajout_points = nbp
   if ( orbe <= 10 ):
     points += ajout_points

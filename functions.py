@@ -251,22 +251,12 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
                 planete2 = df['deg'].loc[j]
                 
                 if (0 <= i <= 1 or 0 <= j <= 1):
-                    #print(rapidite_planetes[i][0])
-                    #print(rapidite_planetes[j][0])
-                    #print(planete1)
-                    #print(planete2)
                     points = 0
                     points = trouve_aspects_luminaires(planete1,planete2,1)
-                    #print(points)
                     points_astre += points
                 else:
-                    #print(rapidite_planetes[i][0])
-                    #print(rapidite_planetes[j][0])
-                    #print(planete1)
-                    #print(planete2)
                     points = 0
                     points = trouve_aspects_planetes(planete1,planete2,1)
-                    #print(points)
                     points_astre += points
                 nb_aspects[i+1] += points_astre
     
@@ -333,19 +323,30 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
         planete_moins_40_rap.append(interm)
     
     amas = list(connected_components(planete_moins_40_rap))
-
     planetes_lentes_amas = []
-    for i in range(len(amas)):
-        val_max = max(amas[i])
-        planetes_lentes_amas.append(idx_planetes_rapidite[val_max])
+
+    if len(amas) > 0:
+      tab_val_max = []
+
+      for i in range(len(amas)):
+          val_max = max(amas[i])
+          tab_val_max.append(val_max)
+
+      if (len(tab_val_max)) > 1:
+        val_max = max(tab_val_max)
+      
+
+      planetes_lentes_amas.append(idx_planetes_rapidite[val_max])
     
     df_points.loc[16] = 0
     df_points.iloc[16,0] = 'Planète lente amas'
     points_ = 3
 
-    for i in range(len(planetes_lentes_amas)):
-        idx = planetes_lentes_amas[i] + 1
-        df_points.iloc[16,idx] = points_
+    if (len(planetes_lentes_amas) > 0):
+
+      for i in range(len(planetes_lentes_amas)):
+          idx = planetes_lentes_amas[i] + 1
+          df_points.iloc[16,idx] = points_
 
     df_points.loc[17] = 0
     df_points.iloc[17,0] = 'Maître Noeud Sud'
@@ -365,6 +366,7 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
       if(len(resultat) == 1):
         signesAdj = trouveSignesAdj(signePlanete)
         resultat2 = filtredf[(filtredf['signe'] == signesAdj[0]) | (filtredf['signe'] == signesAdj[1]) | (filtredf['signe'] == signesAdj[2]) | (filtredf['signe'] == signesAdj[3])].copy()
+        
         if(len(resultat2)==0):
           df_points.iloc[18,i+1] = points_
 
@@ -684,26 +686,18 @@ def planete_domicile(planete_id):
 def trouve_aspects_luminaires(plRef,pl2,nbp):
   points = 0
   reponse = trouve_orbe(plRef,pl2)
-  #print(reponse)
   orbe = abs(reponse[0])
-  #print(orbe)
   orbe = round(orbe)
-  #print(orbe)
   ajout_points = nbp
   if ( orbe <= 12 ):
-    #print('hello12')
     points += ajout_points
   if ( 56 <= orbe <= 64):
-    #print('hello56')
     points += ajout_points
   if (83 <= orbe <= 97):
-    #print('hello83')
     points+= ajout_points
   if (112 <= orbe <= 128):
-    #print('hello112')
     points+= ajout_points
   if (170 <= orbe <= 190):
-    #print('hello170')
     points += ajout_points
   return points
 
@@ -712,7 +706,6 @@ def trouve_aspects_planetes(plRef,pl2,nbp):
   reponse = trouve_orbe(plRef,pl2)
   orbe = abs(reponse[0])
   orbe = round(orbe)
-  #print(orbe)
   ajout_points = nbp
   if ( orbe <= 10 ):
     points += ajout_points
@@ -822,7 +815,7 @@ def signeAsc(signeM1,signeM2):
 
   if (idxsigneM1 == 11):
     idxsigneM1 = -1
-    
+
   if (idxsigneM2 == idxsigneM1 ):
     return [signeM1]
   if (idxsigneM2 == idxsigneM1 + 1):

@@ -228,6 +228,7 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
     # qui sont le/les gouverneurs
     # signes ascendant
     signes_asc = signeAsc(signeM1,signeM2)
+    
     maitres = []
     for i in range(len(signes_asc)):
         idxsigne = get_sign_idx(signes_asc[i])
@@ -746,12 +747,14 @@ def maitreAsc(signeAsc,nbAsc,ligne,pts):
       idx_signe2 = 0
     else:
       idx_signe2 = idx_signe1 + 1
+    
     maitrises_signes = []
     maitrises_signe1 = maitrises[idx_signe1].copy()
     maitrises_signes.append(maitrises_signe1)
     maitrises_signe2 = maitrises[idx_signe2].copy()
     maitrises_signes.append(maitrises_signe2)
     idx_maitrises_signe = []
+    
     for i in range(len(maitrises_signes)):
       for j in range(len(maitrises_signes[i])):
         signe = maitrises_signes[i][j]
@@ -801,9 +804,13 @@ def maitreGouv(signeAsc,nbAsc,ligne,pts):
 def nombreAsc(signeM1,signeM2,ligne,pts):
   idxsigneM1 = get_sign_idx(signeM1)
   idxsigneM2 = get_sign_idx(signeM2)
+
+  if (idxsigneM1 == 11):
+    idxsigneM1 = -1
+
   if (idxsigneM2 == idxsigneM1):
     maitreAsc(signeM1,1,ligne,pts)
-  if (idxsigneM2 == idxsigneM1 + 1):
+  elif (idxsigneM2 == idxsigneM1 + 1):
     maitreAsc(signeM1,1,ligne,pts)
   elif (idxsigneM2 == idxsigneM1 + 2):
     maitreAsc(signeM1,2,ligne,pts)
@@ -812,6 +819,10 @@ def nombreAsc(signeM1,signeM2,ligne,pts):
 def signeAsc(signeM1,signeM2):
   idxsigneM1 = get_sign_idx(signeM1)
   idxsigneM2 = get_sign_idx(signeM2)
+
+  if (idxsigneM1 == 11):
+    idxsigneM1 = -1
+    
   if (idxsigneM2 == idxsigneM1 ):
     return [signeM1]
   if (idxsigneM2 == idxsigneM1 + 1):

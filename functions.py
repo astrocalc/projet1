@@ -207,6 +207,7 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
     signeM1 = df2['signe'].loc[0]
     signeM2 = df2['signe'].loc[1]
     nombreAsc(signeM1,signeM2,9,pts)
+    
 
     df_points.loc[10] = 0
     df_points.iloc[10,0] = 'Maître soleil'
@@ -234,13 +235,16 @@ def generateData(jour_naissance,mois_naissance,annee_naissance,heure_naissance,m
         idxsigne = get_sign_idx(signes_asc[i])
         mtr_signe = maitrises[idxsigne]
         maitres.append(mtr_signe)
+
     for i in range(len(maitres)):
         for j in range(len(maitres[i])):
             astre = maitres[i][j]
             idx_astre = get_astre_idx(astre)
             signe_astre = df['signe'].loc[idx_astre]
+            
             maitreGouv(signe_astre,1,12,pts)
     
+
     nb_aspects = ['Aspects majeurs']
     for i in range(10):
         nb_aspects.append(0)
@@ -779,6 +783,7 @@ def maitreGouv(signeAsc,nbAsc,ligne,pts):
       idx_signe2 = 0
     else:
       idx_signe2 = idx_signe1 + 1
+
     maitrises_signes = []
     maitrises_signe1 = maitrises[idx_signe1].copy()
     maitrises_signes.append(maitrises_signe1)
@@ -801,12 +806,20 @@ def nombreAsc(signeM1,signeM2,ligne,pts):
   if (idxsigneM1 == 11):
     idxsigneM1 = -1
 
+  if (idxsigneM1 == 10 and idxsigneM2 == 0):
+    idxsigneM1 = -2
+
   if (idxsigneM2 == idxsigneM1):
     maitreAsc(signeM1,1,ligne,pts)
   elif (idxsigneM2 == idxsigneM1 + 1):
     maitreAsc(signeM1,1,ligne,pts)
   elif (idxsigneM2 == idxsigneM1 + 2):
-    maitreAsc(signeM1,2,ligne,pts)
+    if (idxsigneM1 == -2):
+      signeM1 = signes[10]
+      maitreAsc(signeM1,2,ligne,pts)
+    else:
+      maitreAsc(signeM1,2,ligne,pts)
+    
 
 # Afficher le ou les signes de l'ascendant
 def signeAsc(signeM1,signeM2):
@@ -816,12 +829,21 @@ def signeAsc(signeM1,signeM2):
   if (idxsigneM1 == 11):
     idxsigneM1 = -1
 
+  if (idxsigneM1 == 10 and idxsigneM2 == 0):
+    idxsigneM1 = -2
+
   if (idxsigneM2 == idxsigneM1 ):
     return [signeM1]
+  
   if (idxsigneM2 == idxsigneM1 + 1):
     return [signeM1]
-  elif (idxsigneM2 == idxsigneM1 + 2):
-    idxsigneasc2 = idxsigneM1 + 1
+  
+  if (idxsigneM2 == idxsigneM1 + 2):
+    if (idxsigneM1 == -2):
+      idxsigneasc2 = 11
+    else:
+      idxsigneasc2 = idxsigneM1 + 1
+
     signe2 = signes[idxsigneasc2]
     return [signeM1,signe2]
 
